@@ -1,4 +1,5 @@
-SRCS = tft.c glcdfont.c stm32f0xx_gpio.c stm32f0xx_rcc.c
+#SRCS = tft.c glcdfont.c stm32f0xx_gpio.c stm32f0xx_rcc.c
+SRCS = tft.c glcdfont.c
 
 
 ###################################################
@@ -17,7 +18,7 @@ vpath %.c src
 
 ROOT=$(shell pwd)
 
-CFLAGS += -Iinc -Iinc/core -Iinc/peripherals
+CFLAGS += -I../libs -I../libs/inc -I../libs/inc/core -I../libs/inc/peripherals
 
 OBJS = $(SRCS:.c=.o)
 
@@ -28,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 all: libtft.a
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $^
+	$(CC) $(CFLAGS) -c -o $@ $^ -L../libs -lstm32f0 -ltiming
 
 libtft.a: $(OBJS)
 	$(AR) -r $@ $(OBJS)

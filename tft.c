@@ -208,6 +208,29 @@ void printStr(int16_t x, int16_t y, char* c, uint16_t color, uint16_t bg, uint8_
 
 }
 
+
+
+char* itoa(int i, char b[]){
+    char const digit[] = "0123456789";
+    char* p = b;
+    if(i<0){
+        *p++ = '-';
+        i *= -1;
+    }
+    int shifter = i;
+    do{ //Move to where representation ends
+        ++p;
+        shifter = shifter/10;
+    }while(shifter);
+    *p = '\0';
+    do{ //Move back, inserting digits as u go
+        *--p = digit[i%10];
+        i = i/10;
+    }while(i);
+    return b;
+}
+
+
 void bl_on(){
 	  GPIO_SetBits(GPIOB, BL);
 }

@@ -44,7 +44,7 @@ void _commandList(const uint8_t *addr) {
     if(ms) {
       ms = pgm_read_byte(addr++); // Read post-command delay time (ms)
       if(ms == 255) ms = 500;     // If 255, delay for 500 ms
-      Delay(ms);
+      Delay_us(ms);
     }
 	}
 }
@@ -301,11 +301,11 @@ void init_display(void){
 	GPIO_ResetBits(GPIOA, SDA); // start with data low
 
   GPIO_SetBits(GPIOB, RST);
-  Delay(500);
+  Delay_us(500);
   GPIO_ResetBits(GPIOB, RST);
-  Delay(500);
+  Delay_us(500);
   GPIO_SetBits(GPIOB, RST);
-	Delay(500);
+	Delay_us(500);
   _commandList(Rcmd1);
   _height = ST7735_TFTHEIGHT_144;
 	_commandList(Rcmd2green144);

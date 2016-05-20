@@ -196,6 +196,18 @@ void drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg
   } // End classic vs custom font */
 }
 
+void printStr(int16_t x, int16_t y, char* c, uint16_t color, uint16_t bg, uint8_t size) {
+    uint16_t i=0;
+    int16_t x_in = x;
+    int16_t y_in = y;
+    while(c[i]!='\0'){
+	drawChar(x_in, y_in, c[i], color, bg, size);
+	i++;
+	x_in += size*8;
+    }
+
+}
+
 void bl_on(){
 	  GPIO_SetBits(GPIOB, BL);
 }

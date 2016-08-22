@@ -10,11 +10,11 @@
 #define TRUE 1
 #define FALSE 0
 
-#define SCL GPIO_Pin_12 // A12
-#define SDA GPIO_Pin_7 // A7
-#define RST GPIO_Pin_0 // B0
-#define DC GPIO_Pin_1 // B1
-#define BL GPIO_Pin_2 // B2
+#define SCL GPIO_Pin_10 // B10
+#define SDA GPIO_Pin_6 // B6
+#define RST GPIO_Pin_5 // B5
+#define DC GPIO_Pin_4 // B4
+#define BL GPIO_Pin_3 // B3
 
 
 // some flags for initR() :(

@@ -2,9 +2,9 @@
 
 void _send_bit(uint8_t value) {
 	if (value){
-		GPIO_SetBits(GPIOA, SDA);
+		GPIO_SetBits(GPIOB, SDA);
 	} else {
-		GPIO_ResetBits(GPIOA, SDA);
+		GPIO_ResetBits(GPIOB, SDA);
 	}
 }
 
@@ -12,8 +12,8 @@ void _send_byte(uint8_t c) {
     // Fast SPI bitbang swiped from LPD8806 library
     for(uint8_t bit = 0x80; bit; bit >>= 1) {
       _send_bit(c & bit);
-      GPIO_SetBits(GPIOA, SCL);
-      GPIO_ResetBits(GPIOA, SCL);
+      GPIO_SetBits(GPIOB, SCL);
+      GPIO_ResetBits(GPIOB, SCL);
     }
 }
 
@@ -44,7 +44,7 @@ void _commandList(const uint8_t *addr) {
     if(ms) {
       ms = pgm_read_byte(addr++); // Read post-command delay time (ms)
       if(ms == 255) ms = 500;     // If 255, delay for 500 ms
-      Delay_us(ms);
+      Delay_ms(ms);
     }
 	}
 }
@@ -311,20 +311,20 @@ void init_display(void){
     ST7735_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
       100 };                  //     100 ms delay
 
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+  //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 
-  GPIO_InitTypeDef GPIO_InitDef_A;
+  //GPIO_InitTypeDef GPIO_InitDef_A;
   GPIO_InitTypeDef GPIO_InitDef_B;
 
-  GPIO_InitDef_A.GPIO_Pin = SCL | SDA;
+  /*GPIO_InitDef_A.GPIO_Pin = SCL | SDA;
   GPIO_InitDef_A.GPIO_OType = GPIO_OType_PP;
   GPIO_InitDef_A.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitDef_A.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_InitDef_A.GPIO_Speed = GPIO_Speed_10MHz;
-  GPIO_Init(GPIOA, &GPIO_InitDef_A);
+  GPIO_Init(GPIOA, &GPIO_InitDef_A); */
 
-  GPIO_InitDef_B.GPIO_Pin = RST | DC | BL;
+  GPIO_InitDef_B.GPIO_Pin = SCL | SDA | RST | DC | BL;
   GPIO_InitDef_B.GPIO_OType = GPIO_OType_PP;
   GPIO_InitDef_B.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitDef_B.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -332,15 +332,15 @@ void init_display(void){
   GPIO_Init(GPIOB, &GPIO_InitDef_B);
 
 
-	GPIO_ResetBits(GPIOA, SCL); // start with clock low
-	GPIO_ResetBits(GPIOA, SDA); // start with data low
+	GPIO_ResetBits(GPIOB, SCL); // start with clock low
+	GPIO_ResetBits(GPIOB, SDA); // start with data low
 
   GPIO_SetBits(GPIOB, RST);
-  Delay_us(500);
+  Delay_ms(1);
   GPIO_ResetBits(GPIOB, RST);
-  Delay_us(500);
+  Delay_ms(1);
   GPIO_SetBits(GPIOB, RST);
-	Delay_us(500);
+	Delay_ms(1);
   _commandList(Rcmd1);
   _height = ST7735_TFTHEIGHT_144;
 	_commandList(Rcmd2green144);

@@ -8,7 +8,7 @@ SRCS += stm32f0xx_rcc.c
 CC=arm-none-eabi-gcc
 AR=arm-none-eabi-ar
 
-CFLAGS  = -g -O0 -Wall 
+CFLAGS  = -g -O0 -Wall
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m0 -mthumb-interwork
 CFLAGS += -mfloat-abi=soft
 CFLAGS += -ffreestanding -nostdlib
@@ -19,7 +19,7 @@ vpath %.c src
 
 ROOT=$(shell pwd)
 
-CFLAGS += -Iinc -I../libs -I../libs/inc
+CFLAGS += -Iinc -I../libs -I../libs/inc -Iinc/peripherals
 CFLAGS += -I../libs/inc/core -I../libs/inc/peripherals
 
 OBJS = $(SRCS:.c=.o)
